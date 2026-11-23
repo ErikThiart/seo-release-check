@@ -35,6 +35,8 @@ Start a fresh Codex session with `codex exec --ignore-user-config --ephemeral --
 
 ## Next comparison
 
+The [live staging benchmark](../live-staging/README.md) has since tested four new fixtures with real crawler and browser acquisition.
+
 Add unseen releases, including healthy changes that should pass, and run several samples per skill. Have a second reviewer grade answers without seeing the variant. Then compare the full tools on an authorized staging site where all entries can fetch pages. Score the accuracy of the resulting release decision and measure the time it takes a developer to reproduce it.
 
 Measure directory adoption separately. Skills.sh ranks by recorded installs. A public benchmark measures technical performance, and genuine usage determines leaderboard position. [Skills.sh ranking methodology](https://www.skills.sh/docs/faq)

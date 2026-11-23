@@ -1,0 +1,1161 @@
+{
+  "releases": {
+    "locale": {
+      "expected_release_verdict": "Pass",
+      "observed_local": {
+        "origin": "http://127.0.0.1:55151",
+        "live_get": [
+          {
+            "path": "/",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55151/"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/robots.txt",
+            "status": 200,
+            "Content-Type": [
+              "text/plain; charset=utf-8"
+            ],
+            "body": "User-agent: *\nDisallow: /fr/\n\nUser-agent: Googlebot\nAllow: /fr/guide\nDisallow: /fr/\nSitemap: http://127.0.0.1:55151/sitemap.xml\n"
+          },
+          {
+            "path": "/help-old?campaign=autumn",
+            "status": 308,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "Location": [
+              "/en/guide?campaign=autumn"
+            ],
+            "served_signals": [],
+            "body_sample": ""
+          },
+          {
+            "path": "/en/guide",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55151/en/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "en",
+                  "href": "http://127.0.0.1:55151/en/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "fr",
+                  "href": "http://127.0.0.1:55151/fr/guide"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/en/guide?campaign=autumn",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55151/en/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "en",
+                  "href": "http://127.0.0.1:55151/en/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "fr",
+                  "href": "http://127.0.0.1:55151/fr/guide"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/fr/guide",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55151/fr/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "en",
+                  "href": "http://127.0.0.1:55151/en/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "fr",
+                  "href": "http://127.0.0.1:55151/fr/guide"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/missing-help",
+            "status": 404,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [],
+            "body_sample": "<!doctype html><title>Not found</title>"
+          },
+          {
+            "path": "/sitemap.xml",
+            "status": 200,
+            "Content-Type": [
+              "application/xml"
+            ],
+            "body": "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><sitemap><loc>http://127.0.0.1:55151/maps/public.xml</loc></sitemap></sitemapindex>"
+          },
+          {
+            "path": "/maps/public.xml",
+            "status": 200,
+            "Content-Type": [
+              "application/xml"
+            ],
+            "body": "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>http://127.0.0.1:55151/</loc></url><url><loc>http://127.0.0.1:55151/en/guide</loc></url><url><loc>http://127.0.0.1:55151/fr/guide</loc></url></urlset>"
+          }
+        ],
+        "browser": [
+          {
+            "path": "/en/guide",
+            "rendered_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55151/en/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "en",
+                  "href": "http://127.0.0.1:55151/en/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "fr",
+                  "href": "http://127.0.0.1:55151/fr/guide"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/fr/guide",
+            "rendered_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55151/fr/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "en",
+                  "href": "http://127.0.0.1:55151/en/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "fr",
+                  "href": "http://127.0.0.1:55151/fr/guide"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      "checker": {
+        "v0.2.0": {
+          "checks": 6,
+          "mismatches": []
+        },
+        "v0.3.0": {
+          "checks": 11,
+          "mismatches": []
+        }
+      },
+      "seomator_mcp": {
+        "run_state": "completed",
+        "pages_crawled": 2
+      },
+      "seomator_cli": {
+        "pages_measured": 2,
+        "lab_lcp_measurements": 2,
+        "overall_audit_score": 88,
+        "default_gate_exit": 0
+      },
+      "claude_seo": {
+        "sitemap_files": [
+          {
+            "path": "sitemap.xml",
+            "kind": "sitemapindex",
+            "valid": true
+          },
+          {
+            "path": "maps/public.xml",
+            "kind": "urlset",
+            "valid": true
+          }
+        ],
+        "search_console_ready": false
+      },
+      "browser_integrations": {
+        "scope": "The same synthetic staging app reached through a temporary public HTTPS endpoint for optional scraping. Local origin remains canonical for scoring.",
+        "claude_seo_native_browser": [
+          {
+            "path": "/en/guide",
+            "status": 200,
+            "mode": "rendered",
+            "engine": "playwright-chromium",
+            "error": null,
+            "rendered_head": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55151/en/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "en",
+                  "href": "http://127.0.0.1:55151/en/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "fr",
+                  "href": "http://127.0.0.1:55151/fr/guide"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/fr/guide",
+            "status": 200,
+            "mode": "rendered",
+            "engine": "playwright-chromium",
+            "error": null,
+            "rendered_head": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55151/fr/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "en",
+                  "href": "http://127.0.0.1:55151/en/guide"
+                }
+              ],
+              [
+                "link",
+                {
+                  "rel": "alternate",
+                  "hreflang": "fr",
+                  "href": "http://127.0.0.1:55151/fr/guide"
+                }
+              ]
+            ]
+          }
+        ],
+        "firecrawl_keyless_scrape": {
+          "path": "/en/guide",
+          "status": 200,
+          "rendered_html_head": [
+            [
+              "link",
+              {
+                "rel": "canonical",
+                "href": "http://127.0.0.1:55151/en/guide"
+              }
+            ],
+            [
+              "link",
+              {
+                "rel": "alternate",
+                "hreflang": "en",
+                "href": "http://127.0.0.1:55151/en/guide"
+              }
+            ],
+            [
+              "link",
+              {
+                "rel": "alternate",
+                "hreflang": "fr",
+                "href": "http://127.0.0.1:55151/fr/guide"
+              }
+            ]
+          ],
+          "formats": [
+            "html",
+            "rawHtml"
+          ]
+        }
+      }
+    },
+    "archive": {
+      "expected_release_verdict": "Pass",
+      "observed_local": {
+        "origin": "http://127.0.0.1:55152",
+        "live_get": [
+          {
+            "path": "/",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55152/"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/robots.txt",
+            "status": 200,
+            "Content-Type": [
+              "text/plain; charset=utf-8"
+            ],
+            "body": "User-agent: *\nDisallow: /private/\nSitemap: http://127.0.0.1:55152/sitemap.xml\n"
+          },
+          {
+            "path": "/account",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55152/account"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/journal/summer",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "X-Robots-Tag": [
+              "bingbot: noindex"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55152/journal/summer"
+                }
+              ],
+              [
+                "meta",
+                {
+                  "property": "og:image",
+                  "content": "http://127.0.0.1:55152/assets/summer.png"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/print/journal/summer",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "X-Robots-Tag": [
+              "googlebot: none"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55152/print/journal/summer"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/assets/summer.png",
+            "status": 200,
+            "Content-Type": [
+              "image/png"
+            ]
+          },
+          {
+            "path": "/assets/schema.js",
+            "status": 200,
+            "Content-Type": [
+              "text/javascript"
+            ]
+          },
+          {
+            "path": "/journal/absent",
+            "status": 404,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [],
+            "body_sample": "<!doctype html><title>Not found</title>"
+          },
+          {
+            "path": "/sitemap.xml",
+            "status": 200,
+            "Content-Type": [
+              "application/xml"
+            ],
+            "body": "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><sitemap><loc>http://127.0.0.1:55152/maps/public.xml</loc></sitemap></sitemapindex>"
+          },
+          {
+            "path": "/maps/public.xml",
+            "status": 200,
+            "Content-Type": [
+              "application/xml"
+            ],
+            "body": "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>http://127.0.0.1:55152/</loc></url><url><loc>http://127.0.0.1:55152/journal/summer</loc></url><url><loc>http://127.0.0.1:55152/account</loc></url></urlset>"
+          }
+        ],
+        "browser": [
+          {
+            "path": "/journal/summer",
+            "rendered_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55152/journal/summer"
+                }
+              ],
+              [
+                "meta",
+                {
+                  "property": "og:image",
+                  "content": "http://127.0.0.1:55152/assets/summer.png"
+                }
+              ],
+              [
+                "json-ld",
+                "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Summer journal\"}"
+              ]
+            ]
+          }
+        ],
+        "asset_decode": {
+          "path": "/assets/summer.png",
+          "result": "decoded as PNG",
+          "width": 1200,
+          "height": 630,
+          "tool": "macOS sips"
+        }
+      },
+      "checker": {
+        "v0.2.0": {
+          "checks": 6,
+          "mismatches": []
+        },
+        "v0.3.0": {
+          "checks": 12,
+          "mismatches": []
+        }
+      },
+      "seomator_mcp": {
+        "run_state": "completed",
+        "pages_crawled": 3
+      },
+      "seomator_cli": {
+        "pages_measured": 3,
+        "lab_lcp_measurements": 3,
+        "overall_audit_score": 87,
+        "default_gate_exit": 0
+      },
+      "claude_seo": {
+        "sitemap_files": [
+          {
+            "path": "sitemap.xml",
+            "kind": "sitemapindex",
+            "valid": true
+          },
+          {
+            "path": "maps/public.xml",
+            "kind": "urlset",
+            "valid": true
+          }
+        ],
+        "search_console_ready": false
+      },
+      "browser_integrations": {
+        "scope": "The same synthetic staging app reached through a temporary public HTTPS endpoint for optional scraping. Local origin remains canonical for scoring.",
+        "claude_seo_native_browser": [
+          {
+            "path": "/journal/summer",
+            "status": 200,
+            "mode": "rendered",
+            "engine": "playwright-chromium",
+            "error": null,
+            "rendered_head": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55152/journal/summer"
+                }
+              ],
+              [
+                "meta",
+                {
+                  "property": "og:image",
+                  "content": "http://127.0.0.1:55152/assets/summer.png"
+                }
+              ],
+              [
+                "script",
+                {
+                  "type": "application/ld+json"
+                }
+              ]
+            ]
+          }
+        ],
+        "firecrawl_keyless_scrape": {
+          "path": "/journal/summer",
+          "status": 200,
+          "rendered_html_head": [
+            [
+              "link",
+              {
+                "rel": "canonical",
+                "href": "http://127.0.0.1:55152/journal/summer"
+              }
+            ],
+            [
+              "meta",
+              {
+                "property": "og:image",
+                "content": "http://127.0.0.1:55152/assets/summer.png"
+              }
+            ],
+            [
+              "script",
+              {
+                "type": "application/ld+json"
+              }
+            ]
+          ],
+          "formats": [
+            "html",
+            "rawHtml"
+          ]
+        }
+      }
+    },
+    "manuals": {
+      "expected_release_verdict": "Block",
+      "observed_local": {
+        "origin": "http://127.0.0.1:55153",
+        "live_get": [
+          {
+            "path": "/",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55153/"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/robots.txt",
+            "status": 200,
+            "Content-Type": [
+              "text/plain; charset=utf-8"
+            ],
+            "body": "User-agent: *\nDisallow: /private/\n\nUser-agent: Googlebot\nDisallow: /docs/wiring\nSitemap: http://127.0.0.1:55153/sitemap.xml\n"
+          },
+          {
+            "path": "/manual-old?source=mail",
+            "status": 301,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "Location": [
+              "/docs/catalog"
+            ],
+            "served_signals": [],
+            "body_sample": ""
+          },
+          {
+            "path": "/docs/catalog",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55153/docs/catalog"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/docs/wiring",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55153/docs/wiring"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/docs/manual.pdf",
+            "status": 200,
+            "Content-Type": [
+              "application/pdf"
+            ],
+            "Link": [
+              "<http://127.0.0.1:55153/docs/catalog>; rel=\"canonical\""
+            ]
+          },
+          {
+            "path": "/docs/absent",
+            "status": 404,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [],
+            "body_sample": "<!doctype html><title>Not found</title>"
+          },
+          {
+            "path": "/sitemap.xml",
+            "status": 200,
+            "Content-Type": [
+              "application/xml"
+            ],
+            "body": "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><sitemap><loc>http://127.0.0.1:55153/maps/public.xml</loc></sitemap></sitemapindex>"
+          },
+          {
+            "path": "/maps/public.xml",
+            "status": 200,
+            "Content-Type": [
+              "application/xml"
+            ],
+            "body": "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>http://127.0.0.1:55153/</loc></url><url><loc>http://127.0.0.1:55153/docs/catalog</loc></url><url><loc>http://127.0.0.1:55153/docs/wiring</loc></url><url><loc>http://127.0.0.1:55153/docs/manual.pdf</loc></url></urlset>"
+          }
+        ],
+        "browser": [
+          {
+            "path": "/docs/catalog",
+            "rendered_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55153/docs/catalog"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      "checker": {
+        "v0.2.0": {
+          "checks": 6,
+          "mismatches": [
+            {
+              "kind": "route",
+              "path": "/manual-old?source=mail",
+              "mismatches": [
+                "unexpected redirect destination"
+              ]
+            },
+            {
+              "kind": "route",
+              "path": "/docs/manual.pdf",
+              "mismatches": [
+                "unexpected Link headers"
+              ]
+            }
+          ]
+        },
+        "v0.3.0": {
+          "checks": 10,
+          "mismatches": [
+            {
+              "kind": "route",
+              "path": "/manual-old?source=mail",
+              "mismatches": [
+                "unexpected redirect destination"
+              ]
+            },
+            {
+              "kind": "route",
+              "path": "/docs/manual.pdf",
+              "mismatches": [
+                "unexpected Link headers"
+              ]
+            },
+            {
+              "kind": "robots",
+              "path": "/docs/wiring",
+              "mismatches": [
+                "unexpected Googlebot crawl access"
+              ]
+            }
+          ]
+        }
+      },
+      "seomator_mcp": {
+        "run_state": "completed",
+        "pages_crawled": 3
+      },
+      "seomator_cli": {
+        "pages_measured": 3,
+        "lab_lcp_measurements": 3,
+        "overall_audit_score": 87,
+        "default_gate_exit": 0
+      },
+      "claude_seo": {
+        "sitemap_files": [
+          {
+            "path": "sitemap.xml",
+            "kind": "sitemapindex",
+            "valid": true
+          },
+          {
+            "path": "maps/public.xml",
+            "kind": "urlset",
+            "valid": true
+          }
+        ],
+        "search_console_ready": false
+      },
+      "browser_integrations": {
+        "scope": "The same synthetic staging app reached through a temporary public HTTPS endpoint for optional scraping. Local origin remains canonical for scoring.",
+        "claude_seo_native_browser": [
+          {
+            "path": "/docs/catalog",
+            "status": 200,
+            "mode": "rendered",
+            "engine": "playwright-chromium",
+            "error": null,
+            "rendered_head": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55153/docs/catalog"
+                }
+              ]
+            ]
+          }
+        ],
+        "firecrawl_keyless_scrape": {
+          "path": "/docs/catalog",
+          "status": 200,
+          "rendered_html_head": [
+            [
+              "link",
+              {
+                "rel": "canonical",
+                "href": "http://127.0.0.1:55153/docs/catalog"
+              }
+            ]
+          ],
+          "formats": [
+            "html",
+            "rawHtml"
+          ]
+        }
+      }
+    },
+    "launch": {
+      "expected_release_verdict": "Block",
+      "observed_local": {
+        "origin": "http://127.0.0.1:55154",
+        "live_get": [
+          {
+            "path": "/",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55154/"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/robots.txt",
+            "status": 200,
+            "Content-Type": [
+              "text/plain; charset=utf-8"
+            ],
+            "body": "User-agent: *\nDisallow: /private/\nSitemap: http://127.0.0.1:55154/sitemap.xml\n"
+          },
+          {
+            "path": "/products/sensor",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55154/products/sensor"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/news/sensor",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55154/news/sensor"
+                }
+              ],
+              [
+                "meta",
+                {
+                  "property": "og:image",
+                  "content": "http://127.0.0.1:55154/assets/sensor.png"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/assets/sensor.png",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [],
+            "body_sample": "<html><head><title>Asset sign-in</title></head><body>Sign in</body></html>"
+          },
+          {
+            "path": "/products/not-a-real-product",
+            "status": 200,
+            "Content-Type": [
+              "text/html; charset=utf-8"
+            ],
+            "served_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55154/"
+                }
+              ]
+            ],
+            "body_sample": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>Product not found</title><meta name=\"description\" content=\"Product not found documentation and reference\"><link rel=\"canonical\" href=\"http://127.0.0.1:55154/\"></head><body><main><h1>Product not found</h1><p>That item does not exist.</p></main></body></html>"
+          },
+          {
+            "path": "/sitemap.xml",
+            "status": 200,
+            "Content-Type": [
+              "application/xml"
+            ],
+            "body": "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><sitemap><loc>http://127.0.0.1:55154/maps/public.xml</loc></sitemap></sitemapindex>"
+          },
+          {
+            "path": "/maps/public.xml",
+            "status": 200,
+            "Content-Type": [
+              "application/xml"
+            ],
+            "body": "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>http://127.0.0.1:55154/</loc></url><url><loc>http://127.0.0.1:55154/products/sensor</loc></url><url><loc>http://127.0.0.1:55154/news/sensor</loc></url></urlset>"
+          }
+        ],
+        "browser": [
+          {
+            "path": "/products/sensor",
+            "rendered_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "/"
+                }
+              ],
+              [
+                "meta",
+                {
+                  "name": "robots",
+                  "content": "noindex"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/news/sensor",
+            "rendered_signals": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55154/news/sensor"
+                }
+              ],
+              [
+                "meta",
+                {
+                  "property": "og:image",
+                  "content": "http://127.0.0.1:55154/assets/sensor.png"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      "checker": {
+        "v0.2.0": {
+          "checks": 5,
+          "mismatches": [
+            {
+              "kind": "route",
+              "path": "/products/not-a-real-product",
+              "mismatches": [
+                "unexpected HTTP status"
+              ]
+            }
+          ]
+        },
+        "v0.3.0": {
+          "checks": 9,
+          "mismatches": [
+            {
+              "kind": "route",
+              "path": "/products/not-a-real-product",
+              "mismatches": [
+                "unexpected HTTP status"
+              ]
+            },
+            {
+              "kind": "route",
+              "path": "/assets/sensor.png",
+              "mismatches": [
+                "unexpected HTTP media type"
+              ]
+            },
+            {
+              "kind": "rendered",
+              "path": "/products/sensor",
+              "mismatches": [
+                "unexpected HTML canonical",
+                "unexpected Googlebot noindex directive"
+              ]
+            }
+          ]
+        }
+      },
+      "seomator_mcp": {
+        "run_state": "completed",
+        "pages_crawled": 3
+      },
+      "seomator_cli": {
+        "pages_measured": 3,
+        "lab_lcp_measurements": 3,
+        "overall_audit_score": 87,
+        "default_gate_exit": 0
+      },
+      "claude_seo": {
+        "sitemap_files": [
+          {
+            "path": "sitemap.xml",
+            "kind": "sitemapindex",
+            "valid": true
+          },
+          {
+            "path": "maps/public.xml",
+            "kind": "urlset",
+            "valid": true
+          }
+        ],
+        "search_console_ready": false
+      },
+      "browser_integrations": {
+        "scope": "The same synthetic staging app reached through a temporary public HTTPS endpoint for optional scraping. Local origin remains canonical for scoring.",
+        "claude_seo_native_browser": [
+          {
+            "path": "/products/sensor",
+            "status": 200,
+            "mode": "rendered",
+            "engine": "playwright-chromium",
+            "error": null,
+            "rendered_head": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "/"
+                }
+              ],
+              [
+                "meta",
+                {
+                  "name": "robots",
+                  "content": "noindex"
+                }
+              ]
+            ]
+          },
+          {
+            "path": "/news/sensor",
+            "status": 200,
+            "mode": "rendered",
+            "engine": "playwright-chromium",
+            "error": null,
+            "rendered_head": [
+              [
+                "link",
+                {
+                  "rel": "canonical",
+                  "href": "http://127.0.0.1:55154/news/sensor"
+                }
+              ],
+              [
+                "meta",
+                {
+                  "property": "og:image",
+                  "content": "http://127.0.0.1:55154/assets/sensor.png"
+                }
+              ]
+            ]
+          }
+        ],
+        "firecrawl_keyless_scrape": {
+          "path": "/products/sensor",
+          "status": 200,
+          "rendered_html_head": [
+            [
+              "link",
+              {
+                "rel": "canonical",
+                "href": "https://temporary-render.example/"
+              }
+            ],
+            [
+              "meta",
+              {
+                "name": "robots",
+                "content": "noindex"
+              }
+            ]
+          ],
+          "formats": [
+            "html",
+            "rawHtml"
+          ]
+        }
+      }
+    }
+  },
+  "page_speed_insights": {
+    "available": false,
+    "error_code": 429,
+    "error_status": "RESOURCE_EXHAUSTED"
+  }
+}

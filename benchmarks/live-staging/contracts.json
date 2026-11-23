@@ -1,0 +1,214 @@
+{
+  "locale": {
+    "routes": [
+      {
+        "path": "/en/guide",
+        "status": 200,
+        "canonical": "{{ORIGIN}}/en/guide",
+        "noindex": false,
+        "googlebot_allowed": true,
+        "rendered": {
+          "file": "browser-0.html",
+          "canonical": "{{ORIGIN}}/en/guide",
+          "noindex": false
+        }
+      },
+      {
+        "path": "/en/guide?campaign=autumn",
+        "status": 200,
+        "canonical": "{{ORIGIN}}/en/guide",
+        "noindex": false,
+        "googlebot_allowed": true
+      },
+      {
+        "path": "/fr/guide",
+        "status": 200,
+        "canonical": "{{ORIGIN}}/fr/guide",
+        "noindex": false,
+        "googlebot_allowed": true,
+        "rendered": {
+          "file": "browser-1.html",
+          "canonical": "{{ORIGIN}}/fr/guide",
+          "noindex": false
+        }
+      },
+      {
+        "path": "/missing-help",
+        "status": 404
+      },
+      {
+        "path": "/help-old?campaign=autumn",
+        "status": 308,
+        "location": "{{ORIGIN}}/en/guide?campaign=autumn"
+      }
+    ],
+    "sitemaps": {
+      "/maps/public.xml": {
+        "include": [
+          "{{ORIGIN}}/en/guide",
+          "{{ORIGIN}}/fr/guide"
+        ],
+        "exclude": [
+          "{{ORIGIN}}/missing-help"
+        ]
+      }
+    }
+  },
+  "archive": {
+    "routes": [
+      {
+        "path": "/account",
+        "status": 200,
+        "canonical": "{{ORIGIN}}/account",
+        "noindex": false,
+        "googlebot_allowed": true
+      },
+      {
+        "path": "/journal/summer",
+        "status": 200,
+        "canonical": "{{ORIGIN}}/journal/summer",
+        "noindex": false,
+        "googlebot_allowed": true,
+        "rendered": {
+          "file": "browser-0.html",
+          "canonical": "{{ORIGIN}}/journal/summer",
+          "noindex": false
+        }
+      },
+      {
+        "path": "/journal/absent",
+        "status": 404
+      },
+      {
+        "path": "/print/journal/summer",
+        "status": 200,
+        "noindex": true,
+        "googlebot_allowed": true
+      },
+      {
+        "path": "/assets/summer.png",
+        "status": 200,
+        "content_type": "image/png"
+      },
+      {
+        "path": "/assets/schema.js",
+        "status": 200,
+        "content_type": "text/javascript",
+        "googlebot_allowed": true
+      }
+    ],
+    "sitemaps": {
+      "/maps/public.xml": {
+        "include": [
+          "{{ORIGIN}}/account",
+          "{{ORIGIN}}/journal/summer"
+        ],
+        "exclude": [
+          "{{ORIGIN}}/journal/absent",
+          "{{ORIGIN}}/print/journal/summer"
+        ]
+      }
+    }
+  },
+  "manuals": {
+    "routes": [
+      {
+        "path": "/docs/catalog",
+        "status": 200,
+        "canonical": "{{ORIGIN}}/docs/catalog",
+        "noindex": false,
+        "googlebot_allowed": true,
+        "rendered": {
+          "file": "browser-0.html",
+          "canonical": "{{ORIGIN}}/docs/catalog",
+          "noindex": false
+        }
+      },
+      {
+        "path": "/docs/wiring",
+        "status": 200,
+        "canonical": "{{ORIGIN}}/docs/wiring",
+        "noindex": false,
+        "googlebot_allowed": true
+      },
+      {
+        "path": "/docs/absent",
+        "status": 404
+      },
+      {
+        "path": "/manual-old?source=mail",
+        "status": 301,
+        "location": "{{ORIGIN}}/docs/catalog?source=mail"
+      },
+      {
+        "path": "/docs/manual.pdf",
+        "status": 200,
+        "link_headers": [
+          "<{{ORIGIN}}/docs/manual.pdf>; rel=\"canonical\""
+        ],
+        "googlebot_allowed": true,
+        "content_type": "application/pdf"
+      }
+    ],
+    "sitemaps": {
+      "/maps/public.xml": {
+        "include": [
+          "{{ORIGIN}}/docs/catalog",
+          "{{ORIGIN}}/docs/wiring",
+          "{{ORIGIN}}/docs/manual.pdf"
+        ],
+        "exclude": [
+          "{{ORIGIN}}/docs/absent"
+        ]
+      }
+    }
+  },
+  "launch": {
+    "routes": [
+      {
+        "path": "/news/sensor",
+        "status": 200,
+        "canonical": "{{ORIGIN}}/news/sensor",
+        "noindex": false,
+        "googlebot_allowed": true,
+        "rendered": {
+          "file": "browser-1.html",
+          "canonical": "{{ORIGIN}}/news/sensor",
+          "noindex": false
+        }
+      },
+      {
+        "path": "/products/sensor",
+        "status": 200,
+        "canonical": "{{ORIGIN}}/products/sensor",
+        "noindex": false,
+        "googlebot_allowed": true,
+        "rendered": {
+          "file": "browser-0.html",
+          "canonical": "{{ORIGIN}}/products/sensor",
+          "noindex": false
+        }
+      },
+      {
+        "path": "/products/not-a-real-product",
+        "status": 404
+      },
+      {
+        "path": "/assets/sensor.png",
+        "status": 200,
+        "content_type": "image/png"
+      }
+    ],
+    "sitemaps": {
+      "/maps/public.xml": {
+        "include": [
+          "{{ORIGIN}}/news/sensor",
+          "{{ORIGIN}}/products/sensor"
+        ],
+        "exclude": [
+          "{{ORIGIN}}/products/not-a-real-product"
+        ]
+      }
+    }
+  }
+}

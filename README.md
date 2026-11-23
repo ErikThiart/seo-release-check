@@ -39,7 +39,7 @@ From a clone of this repository, copy the [example manifest](skills/seo-release-
 python3 skills/seo-release-check/scripts/check_release.py https://www.example.com release.json
 ```
 
-The optional checker uses Python 3.9+ and the standard library. It visits only the routes and sitemap files you list and prints timestamped JSON. To catch a stale HTTP canonical or an unexpected expiry directive, specify the expected `Link` or `X-Robots-Tag` values in the manifest. Exit code `0` means the observed results match, `1` means a mismatch, and `2` means invalid input or unavailable evidence. The agent handles rendered HTML, robots.txt, source tracing, and Search Console separately. [Manifest reference](skills/seo-release-check/references/manifest.md)
+The optional checker uses Python 3.9+ and the standard library. It visits only the routes and sitemap files you list and prints timestamped JSON. To catch a stale HTTP canonical or an unexpected expiry directive, specify the expected `Link` or `X-Robots-Tag` values in the manifest. You can also require Googlebot crawl access, a specific media type, and the expected metadata in a captured browser DOM. Exit code `0` means the observed results match, `1` means a mismatch, and `2` means invalid input or unavailable evidence. The agent handles rendered HTML, robots.txt, source tracing, and Search Console separately. [Manifest reference](skills/seo-release-check/references/manifest.md)
 
 ## Where these checks came from
 
@@ -55,6 +55,6 @@ AllNet used search landing-page data to decide which utility URLs to keep indexa
 python3 -m unittest discover -s tests -v
 ```
 
-The tests run against a local HTTP server. They cover a passing release, a relative redirect, crawler-specific robots directives, sitemap conflicts, and a sitemap index that needs a separate leaf check. The [release benchmark](benchmarks/release-qa/README.md) compares results from Codex and Claude Code against two competing skills and a plain-model control. See the [competitive research](docs/landscape.md) for the wider SEO skill landscape.
+The tests run against a local HTTP server. They cover a passing release, a relative redirect, crawler-specific robots directives, sitemap conflicts, and a sitemap index that needs a separate leaf check. The [release benchmark](benchmarks/release-qa/README.md) compares results from Codex and Claude Code against two competing skills and a plain-model control. See the [competitive research](docs/landscape.md) for the wider SEO skill landscape. The [live staging benchmark](benchmarks/live-staging/README.md) adds real crawls and browser captures against four reproducible fixtures.
 
 [MIT License](LICENSE)
