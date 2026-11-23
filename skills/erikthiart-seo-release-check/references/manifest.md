@@ -3,7 +3,7 @@
 Use Python 3.9+ with the standard library. Start with [the example manifest](release.json). The manifest supplies an explicit list of GET requests against one origin. The script never follows redirects.
 
 ```sh
-python3 /path/to/seo-release-check/scripts/check_release.py https://www.example.com release.json
+python3 /path/to/erikthiart-seo-release-check/scripts/check_release.py https://www.example.com release.json
 ```
 
 - Each `routes` entry requires a rooted `path` and an integer `status`. A path can include a query string.
@@ -40,5 +40,5 @@ For a page that should remain indexable in both the served and browser-rendered 
 Save the browser DOM as `rendered/sensor.html` during the release verification, then run:
 
 ```sh
-python3 /path/to/seo-release-check/scripts/check_release.py https://www.example.com release.json --rendered-dir rendered/
+python3 /path/to/erikthiart-seo-release-check/scripts/check_release.py https://www.example.com release.json --rendered-dir rendered/
 ```

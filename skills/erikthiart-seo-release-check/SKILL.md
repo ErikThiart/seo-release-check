@@ -1,5 +1,5 @@
 ---
-name: seo-release-check
+name: erikthiart-seo-release-check
 description: Verify technical SEO before or after a website release by comparing intended public routes with live or staging responses and locating the source of regressions. Use for migrations, changed templates or redirects, indexing drops, and release QA involving canonicals, robots, XML sitemaps, public docs, and URL variants.
 license: MIT
 ---

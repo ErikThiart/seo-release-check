@@ -8,7 +8,7 @@ from threading import Thread
 import unittest
 
 
-SKILL = Path(__file__).resolve().parents[1] / "skills" / "seo-release-check"
+SKILL = Path(__file__).resolve().parents[1] / "skills" / "erikthiart-seo-release-check"
 CANONICAL = "https://www.example.com/docs/"
 
 

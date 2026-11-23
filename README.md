@@ -11,14 +11,16 @@ SEO Release Check is an open-source technical SEO skill for Codex and Claude Cod
 Run this from the website project you want to audit.
 
 ```sh
-npx skills add ErikThiart/seo-release-check --skill seo-release-check --agent codex claude-code
+npx skills add ErikThiart/seo-release-check --skill erikthiart-seo-release-check --agent codex claude-code
 ```
 
-Invoke `$seo-release-check` in Codex or `/seo-release-check` in Claude Code, then describe the change.
+Invoke `$erikthiart-seo-release-check` in Codex or `/erikthiart-seo-release-check` in Claude Code, then describe the change.
 
 > Verify our docs migration on staging. The old docs URL should permanently redirect to the new one. Check the destination, canonical, robots directives and sitemap together. Trace failures to the relevant code and give me a release decision.
 
-For a manual install, copy the entire [skill folder](skills/seo-release-check) into `.agents/skills/` for [Codex](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills) or `.claude/skills/` for [Claude Code](https://code.claude.com/docs/en/skills#choose-where-skills-load).
+Erik Thiart’s skills share the `erikthiart-` prefix. From v0.4.0, install this skill with the command above and use its new ID in explicit invocations.
+
+For a manual install, copy the entire [skill folder](skills/erikthiart-seo-release-check) into `.agents/skills/` for [Codex](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills) or `.claude/skills/` for [Claude Code](https://code.claude.com/docs/en/skills#choose-where-skills-load).
 
 ## What a release check looks like
 
@@ -35,13 +37,13 @@ For each finding, the skill reports the URL, the expected and observed behavior,
 
 ## Repeat the same checks after deploy
 
-From a clone of this repository, copy the [example manifest](skills/seo-release-check/references/release.json) to `release.json`. Edit it to list the routes you want to check, their expected responses, and the URLs each sitemap should include or exclude. Run the checker against the origin you want to verify.
+From a clone of this repository, copy the [example manifest](skills/erikthiart-seo-release-check/references/release.json) to `release.json`. Edit it to list the routes you want to check, their expected responses, and the URLs each sitemap should include or exclude. Run the checker against the origin you want to verify.
 
 ```sh
-python3 skills/seo-release-check/scripts/check_release.py https://www.example.com release.json
+python3 skills/erikthiart-seo-release-check/scripts/check_release.py https://www.example.com release.json
 ```
 
-The optional checker uses Python 3.9+ and the standard library. It visits only the routes and sitemap files you list and prints timestamped JSON. To catch a stale HTTP canonical or an unexpected expiry directive, specify the expected `Link` or `X-Robots-Tag` values in the manifest. You can also require Googlebot crawl access, a specific media type, and the expected metadata in a captured browser DOM. Exit code `0` means the observed results match, `1` means a mismatch, and `2` means invalid input or unavailable evidence. The agent handles rendered HTML, robots.txt, source tracing, and Search Console separately. [Manifest reference](skills/seo-release-check/references/manifest.md)
+The optional checker uses Python 3.9+ and the standard library. It visits only the routes and sitemap files you list and prints timestamped JSON. To catch a stale HTTP canonical or an unexpected expiry directive, specify the expected `Link` or `X-Robots-Tag` values in the manifest. You can also require Googlebot crawl access, a specific media type, and the expected metadata in a captured browser DOM. Exit code `0` means the observed results match, `1` means a mismatch, and `2` means invalid input or unavailable evidence. The agent handles rendered HTML, robots.txt, source tracing, and Search Console separately. [Manifest reference](skills/erikthiart-seo-release-check/references/manifest.md)
 
 ## Where these checks came from
 

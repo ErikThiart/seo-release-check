@@ -23,7 +23,7 @@ Every first-run variant found all eight material issue groups. Claude SEO led th
 
 The initial answers often gave the redirect destination's expected retest response without recording its observed response. The revised skill asks for both and cites available landing-page traffic when it supports preserving an existing route. It also calls for separate checks of crawler-scoped serving restrictions and served versus rendered social metadata.
 
-The benchmark exposed an automation gap. A correct HTML canonical and the absence of an explicit Googlebot `noindex` could pass the original checker even when a stale HTTP canonical or an expired `unavailable_after` header was present. Optional exact HTTP header assertions now catch both. See the [manifest reference](../../skills/seo-release-check/references/manifest.md) and [HTTP regression tests](../../tests/test_release.py).
+The benchmark exposed an automation gap. A correct HTML canonical and the absence of an explicit Googlebot `noindex` could pass the original checker even when a stale HTTP canonical or an expired `unavailable_after` header was present. Optional exact HTTP header assertions now catch both. See the [manifest reference](../../skills/erikthiart-seo-release-check/references/manifest.md) and [HTTP regression tests](../../tests/test_release.py).
 
 The score measures task coverage. Claude Code exceeded the requested 750-word limit in both published retests and misstated the age of the expired directive in one response. The cutoff date and the release decision were correct. An additional brevity trial still exceeded the word limit and lost a coverage point, so we kept the preceding version. [Individual scores, timings, and answers](scorecard.md)
 

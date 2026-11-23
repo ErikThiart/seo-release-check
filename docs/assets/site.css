@@ -49,6 +49,7 @@ body {
   color: var(--ink);
   font: 500 1rem/1.65 var(--sans);
   -webkit-text-size-adjust: 100%;
+  overflow-wrap: anywhere;
 }
 
 h1, h2, p, dl, dd, pre { margin: 0; }
@@ -91,6 +92,7 @@ code { font-size: .91em; overflow-wrap: anywhere; }
 }
 
 .header-inner {
+  flex-wrap: wrap;
   min-block-size: 5.05rem;
   border-block-end: 1px solid var(--ink);
 }
@@ -98,6 +100,7 @@ code { font-size: .91em; overflow-wrap: anywhere; }
 .brand {
   display: inline-flex;
   flex: 0 0 auto;
+  max-inline-size: 100%;
   align-items: center;
   gap: .7rem;
   text-decoration: none;
@@ -107,6 +110,8 @@ code { font-size: .91em; overflow-wrap: anywhere; }
 
 nav {
   display: flex;
+  min-inline-size: 0;
+  max-inline-size: 100%;
   flex-wrap: wrap;
   align-items: center;
   gap: .35rem 1.65rem;
@@ -279,7 +284,7 @@ h1 em {
 
 .release-lines > div {
   display: grid;
-  grid-template-columns: minmax(0, 14.8rem) minmax(0, 1fr);
+  grid-template-columns: minmax(0, min(24%, 16.5rem)) minmax(0, 1fr);
   gap: .35rem 1.1rem;
   align-items: baseline;
   border-block-start: 1px solid var(--line);
@@ -289,7 +294,7 @@ h1 em {
 .release-lines dt { font-size: .99rem; }
 .release-lines dd {
   display: grid;
-  grid-template-columns: minmax(2.3rem, 3.35rem) minmax(0, 1fr);
+  grid-template-columns: minmax(0, min(18%, 3.35rem)) minmax(0, 1fr);
   gap: .45rem .8rem;
 }
 
@@ -393,6 +398,7 @@ h1 em {
 .terminal { color: var(--sheet); background: var(--ink); }
 .terminal-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: .65rem;
   min-block-size: 3.65rem;
@@ -411,6 +417,7 @@ h1 em {
 
 .copy-button {
   flex: 0 0 auto;
+  max-inline-size: 100%;
   min-inline-size: 2.75rem;
   min-block-size: 2.75rem;
   padding-inline: .7rem;
@@ -455,7 +462,7 @@ h1 em {
 }
 
 @media (max-width: 36rem) {
-  .header-inner { flex-wrap: wrap; padding-block: .65rem .15rem; gap: .28rem .6rem; }
+  .header-inner { padding-block: .65rem .15rem; gap: .28rem .6rem; }
   .masthead nav { inline-size: 100%; justify-content: space-between; gap: .25rem .55rem; }
   .masthead nav a { font-size: .77rem; }
   .release-lines > div { grid-template-columns: minmax(0, 1fr); }

@@ -33,7 +33,7 @@ All scored Claude Code responses exceeded the requested 420 words. All scored Co
 
 ## What changed in the checker
 
-The original v0.2.0 checker passed both healthy contracts and detected three of the six broken issue groups. It did not test Googlebot access, media type, or rendered metadata. The revised checker still passes both healthy cases and catches all six groups. The contract suite records observed failures by check type and URL. [Manifest reference](../../skills/seo-release-check/references/manifest.md) · [Recorded tool evidence](evidence.json)
+The original v0.2.0 checker passed both healthy contracts and detected three of the six broken issue groups. It did not test Googlebot access, media type, or rendered metadata. The revised checker still passes both healthy cases and catches all six groups. The contract suite records observed failures by check type and URL. [Manifest reference](../../skills/erikthiart-seo-release-check/references/manifest.md) · [Recorded tool evidence](evidence.json)
 
 The Orchard pilot exposed two evidence problems. An invalid checksum in the original synthetic PNG could be missed by an HTTP-only image check. After replacing it with a valid 1200 × 630 image and recording a successful decode, a strict review still held the release because the script that injects the JSON-LD had no direct response capture. The scored runs use the corrected image and a direct GET of the script, including its status, media type, and Googlebot crawl allowance.
 

@@ -9,7 +9,7 @@ from tempfile import TemporaryDirectory
 
 
 ROOT = Path(__file__).resolve().parent
-CHECKER = ROOT.parents[1] / "skills" / "seo-release-check" / "scripts" / "check_release.py"
+CHECKER = ROOT.parents[1] / "skills" / "erikthiart-seo-release-check" / "scripts" / "check_release.py"
 EXPECTED_FAILURES = {
     "locale": set(),
     "archive": set(),
