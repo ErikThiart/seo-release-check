@@ -1,8 +1,8 @@
 {
   "routes": [
-    {"path": "/docs/", "status": 200, "canonical": "https://www.example.com/docs/", "noindex": false},
+    {"path": "/docs/", "status": 200, "canonical": "https://www.example.com/docs/", "noindex": false, "link_headers": []},
     {"path": "/old-docs", "status": 301, "location": "https://www.example.com/docs/"},
-    {"path": "/reset-password", "status": 200, "noindex": true},
+    {"path": "/reset-password", "status": 200, "noindex": true, "x_robots_tag": []},
     {"path": "/missing-page", "status": 404}
   ],
   "sitemaps": {

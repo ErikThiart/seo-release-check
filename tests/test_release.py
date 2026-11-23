@@ -14,6 +14,7 @@ CANONICAL = "https://www.example.com/docs/"
 
 class Fixture(BaseHTTPRequestHandler):
     broken = False
+    extra_docs_headers = []
 
     def do_GET(self):
         path = self.path.split("?", 1)[0]
@@ -22,7 +23,7 @@ class Fixture(BaseHTTPRequestHandler):
             status = 200
             canonical = CANONICAL if not self.broken else CANONICAL.rstrip("/")
             body = f'<html><head><link rel="CANONICAL" href="{canonical}"></head></html>'
-            headers = [("X-Robots-Tag", "bingbot: noindex, nofollow")]
+            headers = [("X-Robots-Tag", "bingbot: noindex, nofollow"), *self.extra_docs_headers]
             if self.broken:
                 headers.append(("X-Robots-Tag", "googlebot: nofollow, none"))
         elif path == "/old-docs":
@@ -65,6 +66,7 @@ class ReleaseCheckTest(unittest.TestCase):
         self.addCleanup(thread.join)
         self.addCleanup(self.server.shutdown)
         self.addCleanup(setattr, Fixture, "broken", False)
+        self.addCleanup(setattr, Fixture, "extra_docs_headers", [])
         self.manifest = json.loads((SKILL / "references" / "release.json").read_text())
 
     def check(self, expected_code):
@@ -91,6 +93,29 @@ class ReleaseCheckTest(unittest.TestCase):
                          ["unexpected HTML canonical", "unexpected Googlebot noindex directive"])
         self.assertEqual(checks["/sitemap.xml"]["observed"]["matching_counts"][CANONICAL], 2)
         self.assertEqual(len(checks["/sitemap.xml"]["mismatches"]), 2)
+
+    def test_catches_header_regressions_that_html_and_noindex_miss(self):
+        stale_canonical = "<https://www.example.com/old-docs>; rel=canonical"
+        expiry = "googlebot: unavailable_after: 01 Jan 2024 00:00:00 GMT"
+        Fixture.extra_docs_headers = [("Link", stale_canonical), ("X-Robots-Tag", expiry)]
+        self.manifest["routes"][0]["x_robots_tag"] = ["bingbot: noindex, nofollow"]
+        report = self.check(1)
+        docs = report["checks"][0]
+        self.assertEqual(docs["observed"]["canonicals"], [CANONICAL])
+        self.assertFalse(docs["observed"]["googlebot_noindex"])
+        self.assertEqual(docs["mismatches"], ["unexpected Link headers", "unexpected X-Robots-Tag headers"])
+
+    def test_accepts_expected_header_values_regardless_of_order(self):
+        preload = "</docs/app.js>; rel=preload; as=script"
+        canonical_header = f"<{CANONICAL}>; rel=canonical"
+        Fixture.extra_docs_headers = [("Link", preload), ("Link", canonical_header)]
+        self.manifest["routes"][0]["link_headers"] = [canonical_header, preload]
+        self.check(0)
+
+    def test_rejects_malformed_header_expectation_before_requests(self):
+        self.manifest["routes"][0]["link_headers"] = "rel=canonical"
+        self.assertIn("must be a list of strings", self.check(2)["error"])
+        self.assertEqual(self.server.requests, [])
 
     def test_resolves_relative_location_without_following_it(self):
         self.server.redirect_to = "/docs/?source=legacy"

@@ -15,6 +15,7 @@ import xml.etree.ElementTree as ET
 
 MAX_BODY = 2 * 1024 * 1024
 SITEMAP_NS = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+SEO_HEADERS = {"link_headers": "Link", "x_robots_tag": "X-Robots-Tag"}
 DIRECTIVES_WITH_VALUE = {
     "max-snippet", "max-image-preview", "max-video-preview", "unavailable_after",
 }
@@ -100,8 +101,9 @@ def validate_manifest(manifest):
         raise ValueError("supply a routes array and/or sitemaps object with 1–50 total requests")
     paths = set()
     for route in routes:
-        if not isinstance(route, dict) or set(route) - {"path", "status", "location", "canonical", "noindex"}:
-            raise ValueError("route accepts path, status, location, canonical, and noindex")
+        fields = {"path", "status", "location", "canonical", "noindex", *SEO_HEADERS}
+        if not isinstance(route, dict) or set(route) - fields:
+            raise ValueError(f"route accepts {', '.join(sorted(fields))}")
         path = route.get("path")
         validate_path(path)
         if path in paths:
@@ -118,6 +120,10 @@ def validate_manifest(manifest):
             absolute_url(route["canonical"])
         if "noindex" in route and not isinstance(route["noindex"], bool):
             raise ValueError(f"{path} noindex must be true or false")
+        for field in SEO_HEADERS.keys() & route.keys():
+            values = route[field]
+            if not isinstance(values, list) or not all(isinstance(value, str) for value in values):
+                raise ValueError(f"{path} {field} must be a list of strings")
     for path, sitemap in sitemaps.items():
         validate_path(path)
         if not isinstance(sitemap, dict) or not sitemap or set(sitemap) - {"include", "exclude"}:
@@ -153,18 +159,20 @@ def check_route(origin, route):
     path = route["path"]
     checks_content = "canonical" in route or "noindex" in route
     status, headers, payload = fetch(origin, path, {route["status"]} if checks_content else set())
-    robots_headers = headers.get_all("X-Robots-Tag", [])
+    observed_headers = {field: headers.get_all(name, []) for field, name in SEO_HEADERS.items()}
     locations = headers.get_all("Location", [])
     observed = {
         "status": status,
         "location_headers": locations,
         "content_type": headers.get("Content-Type"),
-        "x_robots_tag": robots_headers,
-        "link_headers": headers.get_all("Link", []),
+        **observed_headers,
     }
     mismatches = []
     if status != route["status"]:
         mismatches.append("unexpected HTTP status")
+    for field, values in observed_headers.items():
+        if field in route and Counter(values) != Counter(route[field]):
+            mismatches.append(f"unexpected {SEO_HEADERS[field]} headers")
     if "location" in route:
         destination = urljoin(origin.geturl().rstrip("/") + path, locations[0]) if len(locations) == 1 else None
         observed["location"] = destination
@@ -178,7 +186,7 @@ def check_route(origin, route):
             page.close()
         elif "canonical" in route:
             raise ValueError("HTML canonical check requires an HTML response")
-        noindex = googlebot_noindex(page.robots, robots_headers)
+        noindex = googlebot_noindex(page.robots, observed_headers["x_robots_tag"])
         observed.update(canonicals=page.canonicals, robots_meta=page.robots, googlebot_noindex=noindex)
         if "canonical" in route:
             expected = [] if route["canonical"] is None else [route["canonical"]]
