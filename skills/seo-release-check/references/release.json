@@ -1,0 +1,14 @@
+{
+  "routes": [
+    {"path": "/docs/", "status": 200, "canonical": "https://www.example.com/docs/", "noindex": false},
+    {"path": "/old-docs", "status": 301, "location": "https://www.example.com/docs/"},
+    {"path": "/reset-password", "status": 200, "noindex": true},
+    {"path": "/missing-page", "status": 404}
+  ],
+  "sitemaps": {
+    "/sitemap.xml": {
+      "include": ["https://www.example.com/docs/"],
+      "exclude": ["https://www.example.com/old-docs", "https://www.example.com/reset-password"]
+    }
+  }
+}
