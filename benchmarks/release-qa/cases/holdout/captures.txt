@@ -1,0 +1,31 @@
+Using the production hostname routed to staging.
+
+Production baseline before the change:
+GET /pricing -> 200, generic robots index, self-canonical
+GET /support/setup?via=partner -> 200
+GET /login -> 200, self-canonical; 51 Search Console clicks in preceding 28 days
+GET /invoice-preview -> 200, generic noindex
+GET /partners/seacrest -> 200, og:image /img/seacrest.jpg
+
+Staging captures:
+GET /pricing -> 200, HTML rel=canonical https://www.harbordesk.example/pricing
+  X-Robots-Tag: googlebot: unavailable_after: 01 Jan 2024 00:00:00 GMT
+  X-Robots-Tag: DuckDuckBot: noindex
+GET /support/setup?via=partner -> 301 Location: /help/setup?via=partner
+GET /help/setup?via=partner -> 200, self-equivalent canonical https://www.harbordesk.example/help/setup
+GET /help/setup -> 200, self-canonical, no Googlebot robots exclusions
+GET /login -> 200, self-canonical, unchanged
+GET /invoice-preview -> 200, meta robots content="noindex"
+GET /robots.txt -> 200
+  User-agent: *
+  Disallow: /private/
+  Sitemap: https://www.harbordesk.example/sitemap.xml
+GET /sitemap.xml -> 200; sitemap index to /maps/site.xml
+GET /maps/site.xml -> 200; includes /pricing, /help/setup, /login, /partners/seacrest
+GET /partners/seacrest -> 200
+  Server head declares og:image https://www.harbordesk.example/img/seacrest.jpg
+  Rendered head after hydration declares og:image https://www.harbordesk.example/img/default.jpg
+GET /img/seacrest.jpg -> 200, image/jpeg
+GET /img/default.jpg -> 200, image/jpeg
+No sharing platform debug or preview capture.
+Production Search Console indexed inspection of /pricing from before the staging build says Google selected /pricing. No fresh indexed inspection or traffic data exists.

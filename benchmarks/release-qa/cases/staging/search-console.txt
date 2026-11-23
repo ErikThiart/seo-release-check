@@ -1,0 +1,4 @@
+Production Search Console data
+Complete 28 days before migration planning: /guide 441 clicks, /login 104 clicks, /reset-password 0 clicks.
+No comparable post-release window exists. Staging has not gone live.
+A live URL inspection tool capture for the proposed /docs/getting-started URL on the staging build says "URL is available to Google." No indexed inspection of that URL is in this packet. The live test did not report an indexed Google-selected canonical.

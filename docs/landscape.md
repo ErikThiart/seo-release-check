@@ -25,7 +25,7 @@ Compare Codex and Claude Code on the same task and fixture, with the same model,
 | Search Console unavailable | Names the evidence available and leaves Google's indexed state unverified. |
 | Wrong brand image | Separates declared metadata and image availability from platform cache state. |
 
-Track missed blockers, false blockers and time to a correct release decision. The repository's HTTP fixture exercises part of this rubric. A head-to-head agent benchmark still needs to be run.
+Track missed blockers, false blockers and time to a correct release decision. The first [head-to-head release benchmark](../benchmarks/release-qa/README.md) compares two leading skills and a plain-model control in Codex and Claude Code. The fixtures, scoring rules, and individual responses are public.
 
 ## Discovery
 

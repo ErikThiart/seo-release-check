@@ -1,0 +1,1 @@
+Can I roll this release out? Review the supplied release packet for changes that could affect organic search or link sharing. Tell me what you would fix and how you would check the fixes. Keep the final answer under 750 words. Use only files in this scratch project. It has no live target. Do not use the network or delegate. Do not run third-party scripts or edit files.

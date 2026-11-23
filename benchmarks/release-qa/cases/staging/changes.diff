@@ -1,0 +1,29 @@
+diff --git a/app/routes.php b/app/routes.php
+@@ -18,3 +18,8 @@
++$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
++if ($path === '/guide') {
++    header('Location: /docs/getting-started', true, 302);
++    exit;
++}
++
+diff --git a/config/nginx/docs.conf b/config/nginx/docs.conf
+@@ -7,2 +7,3 @@
+ location = /docs/getting-started {
++    add_header Link '<https://www.atlaspay.example/guide>; rel="canonical"';
+ }
+
+diff --git a/templates/case-study.php b/templates/case-study.php
+@@ -21,4 +21,4 @@
+-$canonical = BASE_URL . '/case-studies/' . $case['slug'];
++$canonical = BASE_URL . '/case-studies/';
+ $image = BASE_URL . '/media/' . $case['slug'] . '.jpg';
+
+diff --git a/public/robots.txt b/public/robots.txt
+@@ -1,3 +1,4 @@
+ User-agent: *
++Disallow: /reset-password
+ Disallow: /private/
+ Sitemap: https://www.atlaspay.example/sitemap.xml
+
+Applicable configuration owners
+The leaf sitemap is generated in app/sitemap-pages.php. The docs hub links are in templates/docs-home.php. The media publish manifest is deploy/assets.txt. No changes to the checkout or callback handlers appear in this diff. No request captures exist for those flows.

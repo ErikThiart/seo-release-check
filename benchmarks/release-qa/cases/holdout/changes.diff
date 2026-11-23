@@ -1,0 +1,10 @@
+diff --git a/config/nginx/pricing.conf b/config/nginx/pricing.conf
+@@ -3,2 +3,3 @@
+ location = /pricing {
++    add_header X-Robots-Tag 'googlebot: unavailable_after: 01 Jan 2024 00:00:00 GMT';
+ }
+
+diff --git a/client/partner-preview.js b/client/partner-preview.js
+@@ -9,1 +9,1 @@
+-ogImage.content = partner.image;
++ogImage.content = defaults.image;

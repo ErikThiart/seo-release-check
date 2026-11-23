@@ -1,0 +1,49 @@
+Production baseline
+GET /guide?utm_source=partner&ref=F17 -> 200; organic docs landing
+GET /login -> 200, self canonical, no robots directive
+GET /reset-password -> 200, X-Robots-Tag: googlebot: noindex
+GET /case-studies/clinic -> 200, canonical https://www.atlaspay.example/case-studies/clinic
+GET /case-studies/school -> 200, canonical https://www.atlaspay.example/case-studies/school
+GET /about -> 200, canonical https://www.atlaspay.example/about
+GET /missing-page -> 404
+
+Staging captures
+GET /guide?utm_source=partner&ref=F17 -> 302 Location: /docs/getting-started
+GET /docs/getting-started -> 200
+  Link: <https://www.atlaspay.example/guide>; rel="canonical"
+  X-Robots-Tag: bingbot: noindex
+  Raw and rendered head: <link rel="canonical" href="https://www.atlaspay.example/docs/getting-started">
+GET /docs/getting-started?utm_source=partner&ref=F17 -> 200
+  Same header and HTML canonical signals as the clean variant.
+GET /login -> 200
+  Raw head: <link rel="canonical" href="https://www.atlaspay.example/login">
+  No robots header or meta directive.
+GET /reset-password -> 200 as an ordinary browser
+  X-Robots-Tag: googlebot: noindex
+GET /case-studies/clinic -> 200
+  Raw and rendered head canonical: https://www.atlaspay.example/case-studies/
+  og:image: https://www.atlaspay.example/media/clinic.jpg
+GET /case-studies/school -> 200
+  Raw and rendered head canonical: https://www.atlaspay.example/case-studies/
+  og:image: https://www.atlaspay.example/media/school.jpg
+GET /case-studies/ -> 200, self canonical
+GET /media/clinic.jpg -> 404, Content-Type: text/html
+GET /media/school.jpg -> 200, Content-Type: image/jpeg
+GET /about -> 200, self canonical
+GET /missing-page -> 404
+Rendered docs hub links to /guide for the getting-started guide.
+No social platform preview or cache diagnostics were collected.
+
+GET /robots.txt -> 200
+User-agent: *
+Disallow: /reset-password
+Disallow: /private/
+Sitemap: https://www.atlaspay.example/sitemap.xml
+
+GET /sitemap.xml -> 200; sitemapindex lists https://www.atlaspay.example/sitemap-pages.xml
+GET /sitemap-pages.xml -> 200; urlset contains:
+  https://www.atlaspay.example/guide
+  https://www.atlaspay.example/login
+  https://www.atlaspay.example/case-studies/clinic
+  https://www.atlaspay.example/case-studies/school
+  https://www.atlaspay.example/about
