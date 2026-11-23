@@ -13,7 +13,10 @@ import sys
 from urllib.parse import urljoin, urlsplit
 import xml.etree.ElementTree as ET
 
+from googlebot_robots import googlebot_decision, googlebot_rules
+
 MAX_BODY = 2 * 1024 * 1024
+MAX_ROBOTS = 500 * 1024
 SITEMAP_NS = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
 SEO_HEADERS = {"link_headers": "Link", "x_robots_tag": "X-Robots-Tag"}
 DIRECTIVES_WITH_VALUE = {
@@ -92,6 +95,13 @@ def absolute_url(value):
     return parsed
 
 
+def validate_page_expectations(expectation, path):
+    if expectation.get("canonical") is not None:
+        absolute_url(expectation["canonical"])
+    if "noindex" in expectation and not isinstance(expectation["noindex"], bool):
+        raise ValueError(f"{path} noindex must be true or false")
+
+
 def validate_manifest(manifest):
     if not isinstance(manifest, dict) or set(manifest) - {"routes", "sitemaps"}:
         raise ValueError("manifest accepts routes and sitemaps")
@@ -101,7 +111,8 @@ def validate_manifest(manifest):
         raise ValueError("supply a routes array and/or sitemaps object with 1–50 total requests")
     paths = set()
     for route in routes:
-        fields = {"path", "status", "location", "canonical", "noindex", *SEO_HEADERS}
+        fields = {"path", "status", "location", "canonical", "noindex", "content_type",
+                  "googlebot_allowed", "rendered", *SEO_HEADERS}
         if not isinstance(route, dict) or set(route) - fields:
             raise ValueError(f"route accepts {', '.join(sorted(fields))}")
         path = route.get("path")
@@ -116,10 +127,21 @@ def validate_manifest(manifest):
             if status not in {301, 302, 303, 307, 308}:
                 raise ValueError(f"{path} requires a redirect status when location is specified")
             absolute_url(route["location"])
-        if route.get("canonical") is not None:
-            absolute_url(route["canonical"])
-        if "noindex" in route and not isinstance(route["noindex"], bool):
-            raise ValueError(f"{path} noindex must be true or false")
+        validate_page_expectations(route, path)
+        if "googlebot_allowed" in route and not isinstance(route["googlebot_allowed"], bool):
+            raise ValueError(f"{path} googlebot_allowed must be true or false")
+        if "content_type" in route:
+            media_type = route["content_type"]
+            if not isinstance(media_type, str) or not re.fullmatch(r"[a-zA-Z0-9!#$%&'*+.^_`|~-]+/[a-zA-Z0-9!#$%&'*+.^_`|~-]+", media_type):
+                raise ValueError(f"{path} content_type must be a media type without parameters")
+        if "rendered" in route:
+            rendered = route["rendered"]
+            if not isinstance(rendered, dict) or set(rendered) - {"file", "canonical", "noindex"} or len(rendered) < 2:
+                raise ValueError(f"{path} rendered requires file and canonical and/or noindex")
+            filename = rendered.get("file")
+            if not isinstance(filename, str) or not re.fullmatch(r"[a-zA-Z0-9_-][a-zA-Z0-9_.-]*\.html?", filename):
+                raise ValueError(f"{path} rendered file must be an HTML filename")
+            validate_page_expectations(rendered, path)
         for field in SEO_HEADERS.keys() & route.keys():
             values = route[field]
             if not isinstance(values, list) or not all(isinstance(value, str) for value in values):
@@ -170,6 +192,10 @@ def check_route(origin, route):
     mismatches = []
     if status != route["status"]:
         mismatches.append("unexpected HTTP status")
+    if "content_type" in route:
+        actual_type = headers.get_content_type() if observed["content_type"] else None
+        if actual_type != route["content_type"].lower():
+            mismatches.append("unexpected HTTP media type")
     for field, values in observed_headers.items():
         if field in route and Counter(values) != Counter(route[field]):
             mismatches.append(f"unexpected {SEO_HEADERS[field]} headers")
@@ -186,15 +212,52 @@ def check_route(origin, route):
             page.close()
         elif "canonical" in route:
             raise ValueError("HTML canonical check requires an HTML response")
-        noindex = googlebot_noindex(page.robots, observed_headers["x_robots_tag"])
-        observed.update(canonicals=page.canonicals, robots_meta=page.robots, googlebot_noindex=noindex)
-        if "canonical" in route:
-            expected = [] if route["canonical"] is None else [route["canonical"]]
-            if page.canonicals != expected:
-                mismatches.append("unexpected HTML canonical")
-        if "noindex" in route and noindex != route["noindex"]:
-            mismatches.append("unexpected Googlebot noindex directive")
+        page_observed, page_mismatches = check_page_signals(page, route, observed_headers["x_robots_tag"])
+        observed.update(page_observed)
+        mismatches.extend(page_mismatches)
     return observed, mismatches
+
+
+def check_page_signals(page, expectation, robots_headers):
+    noindex = googlebot_noindex(page.robots, robots_headers)
+    observed = {"canonicals": page.canonicals, "robots_meta": page.robots, "googlebot_noindex": noindex}
+    mismatches = []
+    if "canonical" in expectation:
+        expected = [] if expectation["canonical"] is None else [expectation["canonical"]]
+        if page.canonicals != expected:
+            mismatches.append("unexpected HTML canonical")
+    if "noindex" in expectation and noindex != expectation["noindex"]:
+        mismatches.append("unexpected Googlebot noindex directive")
+    return observed, mismatches
+
+
+def check_rendered(directory, expectation):
+    if directory is None:
+        raise ValueError("rendered checks require --rendered-dir")
+    file = (directory / expectation["file"]).resolve()
+    if file.parent != directory:
+        raise ValueError("rendered file is outside the render directory")
+    with file.open("rb") as snapshot:
+        payload = snapshot.read(MAX_BODY + 1)
+    if len(payload) > MAX_BODY:
+        raise ValueError("rendered snapshot exceeds 2 MiB")
+    if not payload.strip():
+        raise ValueError("rendered snapshot is empty")
+    page = PageSignals()
+    page.feed(payload.decode("utf-8-sig"))
+    page.close()
+    return check_page_signals(page, expectation, [])
+
+
+def fetch_robots(origin):
+    status, headers, payload = fetch(origin, "/robots.txt", range(200, 300))
+    if 400 <= status < 500 and status != 429:
+        return status, []
+    if not 200 <= status < 300:
+        raise ValueError(f"robots.txt HTTP {status} requires separate verification")
+    if payload.strip() and headers.get_content_type() == "text/html":
+        raise ValueError("robots.txt returned HTML")
+    return status, googlebot_rules(payload[:MAX_ROBOTS].decode("utf-8-sig", errors="replace"))
 
 
 def check_sitemap(origin, path, expectation):
@@ -218,6 +281,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("origin", help="HTTP(S) origin with optional port")
     parser.add_argument("manifest", type=Path)
+    parser.add_argument("--rendered-dir", type=Path, help="Directory with captured UTF-8 browser HTML")
     args = parser.parse_args()
     try:
         origin = absolute_url(args.origin)
@@ -228,15 +292,35 @@ def main():
         print(json.dumps({"error": str(error)}))
         return 2
 
+    rendered_dir = args.rendered_dir.resolve() if args.rendered_dir else None
     checks = [("route", route["path"], route) for route in routes]
+    checks.extend(("robots", route["path"], {"googlebot_allowed": route["googlebot_allowed"]})
+                  for route in routes if "googlebot_allowed" in route)
+    checks.extend(("rendered", route["path"], route["rendered"]) for route in routes if "rendered" in route)
     checks.extend(("sitemap", path, expectation) for path, expectation in sitemaps.items())
     report = {"origin": origin.geturl(), "checked_at": datetime.now(timezone.utc).isoformat(), "checks": []}
     result = 0
+    robots = None
+    robots_error = None
+    if any(kind == "robots" for kind, _, _ in checks):
+        try:
+            robots = fetch_robots(origin)
+        except (ValueError, OSError, http.client.HTTPException) as error:
+            robots_error = str(error)
     for kind, path, expectation in checks:
         record = {"kind": kind, "path": path, "expected": expectation}
         try:
             if kind == "route":
                 observed, mismatches = check_route(origin, expectation)
+            elif kind == "robots":
+                if robots_error is not None:
+                    raise ValueError(robots_error)
+                status, rules = robots
+                observed = {"robots_status": status, **googlebot_decision(path, rules)}
+                mismatches = [] if observed["googlebot_allowed"] == expectation["googlebot_allowed"] else [
+                    "unexpected Googlebot crawl access"]
+            elif kind == "rendered":
+                observed, mismatches = check_rendered(rendered_dir, expectation)
             else:
                 observed, mismatches = check_sitemap(origin, path, expectation)
             record.update(observed=observed, mismatches=mismatches)

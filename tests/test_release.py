@@ -15,6 +15,7 @@ CANONICAL = "https://www.example.com/docs/"
 class Fixture(BaseHTTPRequestHandler):
     broken = False
     extra_docs_headers = []
+    robots_status = 200
 
     def do_GET(self):
         path = self.path.split("?", 1)[0]
@@ -32,6 +33,11 @@ class Fixture(BaseHTTPRequestHandler):
         elif path == "/reset-password":
             status = 200
             body = '<meta name="ROBOTS" content="follow, NOINDEX">'
+        elif path == "/robots.txt":
+            status = self.robots_status
+            body = ("User-agent: *\nDisallow: /\n"
+                    "User-agent: Googlebot\nDisallow: /docs/\nAllow: /docs/?public=*\n"
+                    "User-agent: Googlebot\nDisallow: /hidden\nAllow: /hidden\n")
         elif path == "/sitemap.xml":
             status = 200
             urls = [CANONICAL]
@@ -44,7 +50,8 @@ class Fixture(BaseHTTPRequestHandler):
             body = '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"/>'
         self.server.requests.append(self.path)
         self.send_response(status)
-        self.send_header("Content-Type", "text/html; charset=utf-8")
+        mime = "text/plain" if path == "/robots.txt" else "text/html"
+        self.send_header("Content-Type", mime + "; charset=utf-8")
         for name, value in headers:
             self.send_header(name, value)
         self.end_headers()
@@ -67,16 +74,19 @@ class ReleaseCheckTest(unittest.TestCase):
         self.addCleanup(self.server.shutdown)
         self.addCleanup(setattr, Fixture, "broken", False)
         self.addCleanup(setattr, Fixture, "extra_docs_headers", [])
+        self.addCleanup(setattr, Fixture, "robots_status", 200)
         self.manifest = json.loads((SKILL / "references" / "release.json").read_text())
 
-    def check(self, expected_code):
+    def check(self, expected_code, snapshots=None):
         with TemporaryDirectory() as directory:
             manifest_file = Path(directory) / "release.json"
             manifest_file.write_text(json.dumps(self.manifest))
-            process = subprocess.run(
-                [sys.executable, str(SKILL / "scripts" / "check_release.py"), self.origin, str(manifest_file)],
-                text=True, capture_output=True, timeout=15,
-            )
+            command = [sys.executable, str(SKILL / "scripts" / "check_release.py"), self.origin, str(manifest_file)]
+            if snapshots is not None:
+                command += ["--rendered-dir", directory]
+                for filename, html in snapshots.items():
+                    (Path(directory) / filename).write_text(html)
+            process = subprocess.run(command, text=True, capture_output=True, timeout=15)
         self.assertEqual(process.returncode, expected_code, process.stdout + process.stderr)
         return json.loads(process.stdout)
 
@@ -128,6 +138,42 @@ class ReleaseCheckTest(unittest.TestCase):
         self.manifest["routes"][-1]["path"] = "//other.example/"
         self.assertIn("rooted request path", self.check(2)["error"])
         self.assertEqual(self.server.requests, [])
+
+    def test_googlebot_selects_its_group_and_most_specific_rule(self):
+        self.manifest = {"routes": [
+            {"path": "/docs/", "status": 200, "googlebot_allowed": False},
+            {"path": "/docs/?public=yes", "status": 200, "googlebot_allowed": True},
+            {"path": "/missing", "status": 404, "googlebot_allowed": True},
+            {"path": "/hidden", "status": 404, "googlebot_allowed": True},
+        ]}
+        self.check(0)
+        self.assertEqual(self.server.requests.count("/robots.txt"), 1)
+        self.manifest["routes"][0]["googlebot_allowed"] = True
+        report = self.check(1)
+        self.assertIn("unexpected Googlebot crawl access", report["checks"][4]["mismatches"])
+
+    def test_robots_server_failure_marks_evidence_unavailable(self):
+        Fixture.robots_status = 503
+        self.manifest = {"routes": [{"path": "/docs/", "status": 200, "googlebot_allowed": True}]}
+        self.assertIn("HTTP 503", self.check(2)["checks"][1]["error"])
+
+    def test_asset_media_type_catches_html_with_a_success_status(self):
+        self.manifest = {"routes": [{"path": "/docs/", "status": 200, "content_type": "image/png"}]}
+        self.assertEqual(self.check(1)["checks"][0]["mismatches"], ["unexpected HTTP media type"])
+        self.manifest["routes"][0]["content_type"] = "text/html"
+        self.check(0)
+
+    def test_rendered_snapshot_checks_indexing_and_canonical_separately(self):
+        want = {"file": "docs.html", "canonical": CANONICAL, "noindex": False}
+        self.manifest["routes"][0]["rendered"] = want
+        changed = '<head><link rel="canonical" href="/"><meta name="robots" content="noindex"></head>'
+        report = self.check(1, {"docs.html": changed})
+        self.assertEqual(report["checks"][0]["mismatches"], [])
+        rendered = next(check for check in report["checks"] if check["kind"] == "rendered")
+        self.assertEqual(rendered["mismatches"],
+                         ["unexpected HTML canonical", "unexpected Googlebot noindex directive"])
+        self.check(0, {"docs.html": f'<head><link rel="canonical" href="{CANONICAL}"></head>'})
+        self.assertIn("require --rendered-dir", self.check(2)["checks"][4]["error"])
 
     def test_sitemap_index_leaves_membership_unverified(self):
         self.manifest["sitemaps"]["/sitemap-index.xml"] = {"include": [CANONICAL]}

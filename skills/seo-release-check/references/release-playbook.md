@@ -11,6 +11,8 @@
 
 ## A shared metadata change
 
+When a release depends on a script to emit metadata, capture the script URL, its response status and media type, and the relevant crawler's access. Check the resulting DOM in a fresh browser session. A browser render confirms the output you saw, and the direct request records whether the dependency is reachable.
+
 Choose examples with different intended metadata plus a missing route. Compare each final title, description, canonical, rendered structured data, sharing URL and image with its visible content. Verify an article's specific social image is served as an image and that the image URL is stable or changed deliberately after replacement. Confirm external preview refresh independently when it matters. Check structured data against [Google's guidelines](https://developers.google.com/search/docs/appearance/structured-data/sd-policies).
 
 ## Search Console and conversion evidence
