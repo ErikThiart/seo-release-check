@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3e8">
+  <title>SEO Release Check | Open-source skill for Codex and Claude Code</title>
+  <meta name="description" content="Catch SEO regressions before a deploy. Check redirects, canonicals, robots rules, sitemaps and rendered metadata with Codex or Claude Code.">
+  <link rel="canonical" href="https://erikthiart.github.io/seo-release-check/">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SEO Release Check">
+  <meta property="og:title" content="SEO Release Check">
+  <meta property="og:description" content="Check redirects, canonicals, robots rules and rendered metadata before you deploy. An open-source skill for Codex and Claude Code.">
+  <meta property="og:url" content="https://erikthiart.github.io/seo-release-check/">
+  <meta property="og:image" content="https://erikthiart.github.io/seo-release-check/assets/share.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="SEO Release Check. A staging report blocks a release after detecting a render change, an image served as HTML, and a missing route returning 200.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://erikthiart.github.io/seo-release-check/assets/share.png">
+  <link rel="preload" href="assets/manrope.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/site.js" defer></script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareSourceCode",
+      "name": "SEO Release Check",
+      "url": "https://erikthiart.github.io/seo-release-check/",
+      "description": "An open-source Agent Skill and optional Python checker for technical SEO release verification in Codex and Claude Code.",
+      "codeRepository": "https://github.com/ErikThiart/seo-release-check",
+      "license": "https://github.com/ErikThiart/seo-release-check/blob/main/LICENSE",
+      "runtimePlatform": ["Codex", "Claude Code"],
+      "author": {
+        "@type": "Person",
+        "name": "Erik Thiart",
+        "url": "https://erikthiart.com/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="masthead">
+    <div class="frame header-inner">
+      <a class="brand" href="./">
+        <img src="assets/icon.png" width="32" height="32" alt="">
+        <span>SEO Release Check</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#demo">Release record</a>
+        <a href="#checks">How it works</a>
+        <a class="source-link" href="https://github.com/ErikThiart/seo-release-check">GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" tabindex="-1">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="frame">
+        <p class="eyebrow">Open-source SEO skill for Codex and Claude Code</p>
+        <h1 id="hero-title"><span>It returned <em>200 OK.</em></span> <span>We blocked the release.</span></h1>
+        <div class="hero-foot">
+          <p class="hero-summary">Check what a deploy does to your search pages. SEO Release Check catches redirects that lose tracking, pages that hide from Google after rendering, and share images that serve a sign-in screen.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#install">Install the skill <span aria-hidden="true">↓</span></a>
+            <a class="hero-link" href="#demo">See the release <span aria-hidden="true">↓</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="release-record frame" id="demo" aria-labelledby="demo-title">
+      <div class="record-head">
+        <div>
+          <p class="eyebrow">Staging record · Heliot product launch</p>
+          <h2 id="demo-title">What the status code missed</h2>
+        </div>
+        <div class="release-tabs" role="group" aria-label="Compare release outcomes" hidden>
+          <button type="button" aria-pressed="true" aria-controls="observed-release" data-release-panel="observed-release">Observed release</button>
+          <button type="button" aria-pressed="false" aria-controls="expected-release" data-release-panel="expected-release">Expected fix</button>
+        </div>
+      </div>
+      <div class="release-panel" id="observed-release">
+        <div class="verdict">
+          <span class="verdict-label verdict-block">Block</span>
+          <span>Three defects in one staging release</span>
+        </div>
+        <dl class="release-lines">
+          <div>
+            <dt><code>/products/sensor</code></dt>
+            <dd><span class="http-status"><code>200</code></span><p>After JavaScript ran, the canonical pointed to the homepage and the page gained a <code>noindex</code> tag.</p></dd>
+          </div>
+          <div>
+            <dt><code>/assets/sensor.png</code></dt>
+            <dd><span class="http-status"><code>200</code></span><p>The share image URL served a sign-in page as <code>text/html</code>.</p></dd>
+          </div>
+          <div>
+            <dt><code>/products/not-a-real-product</code></dt>
+            <dd><span class="http-status"><code>200</code></span><p>The body said “Product not found”. The response needed a real <code>404</code>.</p></dd>
+          </div>
+        </dl>
+      </div>
+      <div class="release-panel" id="expected-release" hidden>
+        <div class="verdict">
+          <span class="verdict-label verdict-pass">Pass</span>
+          <span>Expected after fixes</span>
+        </div>
+        <dl class="release-lines">
+          <div>
+            <dt><code>/products/sensor</code></dt>
+            <dd><span class="http-status"><code>200</code></span><p>The rendered page keeps its own canonical and leaves indexing allowed.</p></dd>
+          </div>
+          <div>
+            <dt><code>/assets/sensor.png</code></dt>
+            <dd><span class="http-status"><code>200</code></span><p>The URL serves <code>image/png</code> and the file decodes.</p></dd>
+          </div>
+          <div>
+            <dt><code>/products/not-a-real-product</code></dt>
+            <dd><span class="http-status"><code>404</code></span><p>A missing product returns a real HTTP <code>404</code>.</p></dd>
+          </div>
+        </dl>
+      </div>
+      <p class="record-source">Observed on a synthetic site using real HTTP requests and browser renders. <a href="https://github.com/ErikThiart/seo-release-check/blob/v0.3.0/benchmarks/live-staging/briefs/launch.md">Read the fixture brief <span aria-hidden="true">↗</span></a></p>
+    </section>
+
+    <section class="proof" id="benchmark" aria-labelledby="benchmark-title">
+      <div class="frame proof-inner">
+        <div>
+          <p class="eyebrow">Live staging benchmark</p>
+          <h2 id="benchmark-title">Two passed.<br> Two failed.</h2>
+        </div>
+        <div class="proof-copy">
+          <p>We ran 24 scored reviews across Codex and Claude Code. The revised checker caught all six planted defect groups and passed both healthy releases.</p>
+          <a href="https://github.com/ErikThiart/seo-release-check/tree/v0.3.0/benchmarks/live-staging">Read the results and replay the fixtures <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="checks" id="checks" aria-labelledby="checks-title">
+      <div class="frame checks-inner">
+        <div class="checks-intro">
+          <p class="eyebrow">The release workflow</p>
+          <h2 id="checks-title">Check what each URL does.</h2>
+          <p>Decide what should stay in search, what should redirect, and what should stay out. The skill compares that intent with staging and gives you a <strong>Pass</strong>, <strong>Block</strong>, or <strong>Unverified</strong> decision for the routes you checked.</p>
+          <a class="text-link" href="https://github.com/ErikThiart/seo-release-check/blob/main/skills/seo-release-check/SKILL.md">Read the skill <span aria-hidden="true">↗</span></a>
+        </div>
+        <dl class="check-list">
+          <div>
+            <dt>Redirects and missing pages</dt>
+            <dd>Check the destination, preserve campaign parameters, and catch a missing page that returns <code>200</code>.</dd>
+          </div>
+          <div>
+            <dt>Canonicals and crawl access</dt>
+            <dd>Compare HTTP and HTML canonicals. Check which <code>robots.txt</code> rule applies to Googlebot and which directives it can read.</dd>
+          </div>
+          <div>
+            <dt>What changes in the browser</dt>
+            <dd>Compare the served head with the rendered DOM. See when JavaScript rewrites a canonical or adds <code>noindex</code>.</dd>
+          </div>
+          <div>
+            <dt>Sitemaps and sharing images</dt>
+            <dd>Verify the URLs in the leaf sitemap and check what the declared share image actually serves.</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="install" id="install" aria-labelledby="install-title">
+      <div class="frame install-inner">
+        <div class="install-copy">
+          <p class="eyebrow">Get started</p>
+          <h2 id="install-title">Try it on your next deploy.</h2>
+          <p>Run the command in your website project. Start with the URLs changed by the release and one unchanged control.</p>
+        </div>
+        <div class="install-card">
+          <div class="terminal">
+            <div class="terminal-head">
+              <span>Terminal</span>
+              <span class="copy-feedback" id="copy-feedback" role="status"></span>
+              <button type="button" class="copy-button" command="--copy" commandfor="install-command" hidden>Copy command</button>
+            </div>
+            <pre><code id="install-command">npx skills add ErikThiart/seo-release-check --skill seo-release-check --agent codex claude-code</code></pre>
+          </div>
+          <dl class="invoke">
+            <div><dt>Codex</dt><dd><code>$seo-release-check</code></dd></div>
+            <div><dt>Claude Code</dt><dd><code>/seo-release-check</code></dd></div>
+          </dl>
+          <p class="example-prompt"><span class="eyebrow">Try this prompt</span> <q>Can we deploy this docs migration? Check the old URLs still redirect, the new pages can be indexed, and the sitemap lists the right URLs.</q></p>
+          <a class="text-link" href="https://github.com/ErikThiart/seo-release-check/blob/main/skills/seo-release-check/references/manifest.md">Run the Python checker in CI <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="frame footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="./"><img src="assets/icon.png" width="26" height="26" alt=""><span>SEO Release Check</span></a>
+        <p>Built by <a href="https://erikthiart.com/">Erik Thiart</a>.</p>
+      </div>
+      <nav aria-label="Project links">
+        <a href="https://github.com/ErikThiart/seo-release-check/releases/tag/v0.3.0">v0.3.0</a>
+        <a href="https://github.com/ErikThiart/seo-release-check/blob/main/LICENSE">MIT License</a>
+        <a href="https://github.com/ErikThiart/seo-release-check">Source <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

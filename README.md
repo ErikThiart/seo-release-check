@@ -4,6 +4,8 @@ The old docs URL redirects to the right place. The new page returns `200` and se
 
 SEO Release Check is an open-source technical SEO skill for Codex and Claude Code. Tell it which public URLs should stay, move, or drop out of search. It checks what the site serves before and after a deploy, and traces discrepancies to the redirect rule, template, or sitemap code when source is available.
 
+[Website and interactive demo](https://erikthiart.github.io/seo-release-check/)
+
 ## Install and run
 
 Run this from the website project you want to audit.
