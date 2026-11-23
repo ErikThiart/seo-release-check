@@ -32,3 +32,9 @@ Track missed blockers, false blockers and time to a correct release decision. Th
 Track skills.sh installs, GitHub stars and search visibility for `technical SEO release check`, `SEO migration skill` and `Codex Claude SEO skill`. Distinguish GitHub repository popularity from an individual skill's adoption. Skills.sh says its ranking is based on aggregate installs recorded by the CLI. [How skills.sh ranks and lists skills](https://www.skills.sh/docs/faq)
 
 Start with a reproducible migration demo on GitHub. A short case study on erikthiart.com can show the baseline evidence, actual regression and verified fix. Use public examples or fixtures, and preserve a dated snapshot so readers can compare results as the skill changes.
+
+## First cross-client check
+
+Codex CLI 0.169.0 and Claude Code 2.1.318 each ran the installed skill against the same [synthetic migration evidence](../tests/fixtures/docs-migration.txt). Both issued a Block decision, identified the three intended regressions, accepted the redirect and password-reset exclusion, and left Google's actual indexing unverified. This is one compatibility and behavior check.
+
+To reproduce, install the skill in a scratch project, copy the fixture into that project, and ask the client to invoke the skill, review the fixture using only local evidence, and give a release decision.

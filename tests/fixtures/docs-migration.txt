@@ -1,0 +1,11 @@
+Environment: staging. Production canonical origin: https://example.com.
+The old public docs URL should redirect permanently to /docs/.
+The password reset page should remain a publicly crawlable noindex URL.
+GET /old-docs -> 301 Location: /docs/
+GET /docs/ -> 200
+X-Robots-Tag: googlebot: noindex
+<link rel="canonical" href="https://example.com/legacy-docs">
+GET /reset-password -> 200, <meta name="robots" content="noindex">
+robots.txt: User-agent: * then Disallow: /private/
+XML leaf sitemap lists https://example.com/old-docs and omits https://example.com/docs/.
+No repository source or Google Search Console evidence available.
